@@ -6,6 +6,13 @@ namespace StructuralDuplication;
 
 public class SingleParamMethodRewriter : CSharpSyntaxRewriter
 {
+    private readonly bool _allowUserInput;
+
+    public SingleParamMethodRewriter(bool allowUserInput = true)
+    {
+        _allowUserInput = allowUserInput;
+    }
+
     /// <summary>
     ///     Adds a new parameter to all single parameter method declarations.
     /// </summary>
@@ -17,7 +24,11 @@ public class SingleParamMethodRewriter : CSharpSyntaxRewriter
         var parameter = node.ParameterList.Parameters.First();
         var name = parameter.Identifier.Text;
 
-        var newName = InputNewName(name, node.Identifier.Text);
+        var suggestedName = SuggestNewName(name);
+        var newName = suggestedName;
+        if (_allowUserInput)
+            newName = GetUserInput(name, node.Identifier.Text, suggestedName);
+
         var newParameter = SyntaxFactory.Parameter(
                 parameter.AttributeLists,
                 parameter.Modifiers,
@@ -31,12 +42,28 @@ public class SingleParamMethodRewriter : CSharpSyntaxRewriter
         return node.WithParameterList(node.ParameterList.AddParameters(newParameter));
     }
 
-    /// <summary>
-    ///     Gets user input for new parameter name.
-    /// </summary>
-    private static string InputNewName(string oldName, string methodName)
+    private static string SuggestNewName(string oldName)
     {
-        var suggestedName = oldName + "1";
+        if (char.IsDigit(oldName[^1]))
+        {
+            var i = oldName.Length - 1;
+            while (i >= 0 && char.IsDigit(oldName[i]))
+                i--;
+            var newNum = int.Parse(oldName.Substring(i + 1)) + 1;
+            return oldName[..(i + 1)] + newNum;
+        }
+
+        if (oldName.Length == 1 && char.IsLetter(oldName[0]) && oldName[0] != 'z')
+        {
+            var newChar = (char)(oldName[0] + 1);
+            return newChar.ToString();
+        }
+
+        return oldName + "1";
+    }
+
+    private static string GetUserInput(string oldName, string methodName, string suggestedName)
+    {
         Console.Write(
             $"\nDuplicating parameter {oldName} in method {methodName}. Suggested name: {suggestedName}.\n" +
             "Enter to accept, or type new name: ");
