@@ -13,12 +13,17 @@ git clone https://github.com/markovolimango/TupleRewriter.git
 cd TupleRewriter
 ```
 
+
 ## Usage
+
+### Running the tests
+
+`dotnet test`
+
+### Refactoring a file
 
 1. Run the project
 
-```zsh
-dotnet run --project TupleRewriter
-```
+`dotnet run --project TupleRewriter`
 
-Follow the instructions in the terminal (enter the path to your file and select the new names) and your file is reformated!
+2. Follow the instructions in the terminal (enter the path to your file and choose new parameter names) and your file is reformated!
