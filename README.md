@@ -9,8 +9,8 @@ Small program that takes a C# source file as input, and duplicates the parameter
 Clone the repository and navigate to the folder
 
 ```zsh
-git clone https://github.com/markovolimango/TupleRewriter.git
-cd TupleRewriter
+git clone https://github.com/markovolimango/StructuralDuplication.git
+cd StructuralDuplication
 ```
 
 
