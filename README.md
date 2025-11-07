@@ -27,7 +27,7 @@ dotnet test
 1. Run the project
 
 ```zsh
-dotnet run --project TupleRewriter
+dotnet run --project StructuralDuplication
 ```
 
 2. Follow the instructions in the terminal (enter the path to your file and choose new parameter names) and your file is reformated!
