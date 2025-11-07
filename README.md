@@ -18,12 +18,16 @@ cd TupleRewriter
 
 ### Running the tests
 
-`dotnet test`
+```zsh
+dotnet test
+```
 
 ### Refactoring a file
 
 1. Run the project
 
-`dotnet run --project TupleRewriter`
+```zsh
+dotnet run --project TupleRewriter
+```
 
 2. Follow the instructions in the terminal (enter the path to your file and choose new parameter names) and your file is reformated!
